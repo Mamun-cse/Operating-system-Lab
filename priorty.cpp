@@ -1,73 +1,70 @@
-
 #include<bits/stdc++.h>
 using namespace std;
+void sortp(int p[],int n,int b[],int priority[]){
+    int i,j,pos,temp;
+    for(i=1;i<=n;i++){
+        pos = i;
+        for(j = i+1;j<=n;j++){
+            if(priority[j]<priority[pos])
+                pos = j;
+        }
+        temp = priority[i];
+        priority[i] = priority[pos];
+        priority[pos] = temp;
 
+        temp = p[i];
+        p[i] = p[pos];
+        p[pos] = temp;
+
+         temp = b[i];
+        b[i] = b[pos];
+        b[pos] = temp;
+
+
+    }
+   /* for( i= 0;i<n;i++){
+        cout<<p[i]<<" "<<b[i]<<" "<<priority[i]<<endl;
+    }*/
+}
+void findWaitingTime(int pro[],int n,int B[]){
+    int tn[n],wt[n],i,totalTn=0,totalWt=0,c=0;
+    tn[0]=0;
+    wt[0]=0;
+    for(i=1;i<=n;i++){
+        tn[i] = tn[i-1] + B[i];
+       // c= tn[i];
+         totalTn = totalTn + tn[i];
+    }
+
+    for(i=1;i<=n;i++){
+        wt[i] = (tn[i]-B[i]);
+        totalWt = totalWt + wt[i];
+    }
+    cout << "Processes  "<< " Burst time  "
+    << " Waiting time  " << " Turn around time\n";
+    for(i=1;i<=n;i++){
+        cout<<" "<<pro[i]<<"\t\t"<<B[i]<<"\t\t"
+            <<wt[i]<<"\t\t"<<tn[i]<<endl;
+         }
+
+}
 int main()
 {
-    int bt[20],p[20],wt[20],tat[20],pr[20],i,j,n,total=0,pos,temp,avg_wt,avg_tat;
-    cout<<"Enter Total Number of Process:";
+     int n,i;
+    cout<<"Total number of processes\n";
     cin>>n;
-
-    cout<<"\nEnter Burst Time and Priority\n";
-    for(i=0;i<n;i++)
-    {
-        printf("\nP[%d]\n",i+1);
-        printf("Burst Time:");
-        scanf("%d",&bt[i]);
-        printf("Priority:");
-        scanf("%d",&pr[i]);
-        p[i]=i+1;           //contains process number
-    }
-
-    //sorting burst time, priority and process number in ascending order using selection sort
-    for(i=0;i<n;i++)
-    {
-        pos=i;
-        for(j=i+1;j<n;j++)
-        {
-            if(pr[j]<pr[pos])
-                pos=j;
-        }
-
-        temp=pr[i];
-        pr[i]=pr[pos];
-        pr[pos]=temp;
-
-        temp=bt[i];
-        bt[i]=bt[pos];
-        bt[pos]=temp;
-
-        temp=p[i];
-        p[i]=p[pos];
-        p[pos]=temp;
-    }
-
-    wt[0]=0;	//waiting time for first process is zero
-
-    //calculate waiting time
-    for(i=1;i<n;i++)
-    {
-        wt[i]=0;
-        for(j=0;j<i;j++)
-            wt[i]+=bt[j];
-
-        total+=wt[i];
-    }
-
-    avg_wt=total/n;      //average waiting time
-    total=0;
-
-    printf("\nProcess\t    Burst Time    \tWaiting Time\tTurnaround Time");
-    for(i=0;i<n;i++)
-    {
-        tat[i]=bt[i]+wt[i];     //calculate turnaround time
-        total+=tat[i];
-        printf("\nP[%d]\t\t  %d\t\t    %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
-    }
-
-    avg_tat=total/n;     //average turnaround time
-    printf("\n\nAverage Waiting Time=%d",avg_wt);
-    printf("\nAverage Turnaround Time=%d\n",avg_tat);
-
-	return 0;
+    int p[n],b[n],priority[n];
+    cout<<"processes "<<"burst time "<<"priority\n";
+     for(i=1;i<=n;i++){
+        cin>>p[i];
+        cin>>b[i];
+        cin>>priority[i];
+     }
+     sortp(p,n,b,priority);
+     findWaitingTime(p,n,b);
+     return 0;
 }
+
+
+   
+       
