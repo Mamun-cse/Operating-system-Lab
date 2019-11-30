@@ -52,5 +52,5 @@ int main()
      }
      sortp(p,n,b);
      findWaitingTime(p,n,b);
-     return 0;
+     
 }
